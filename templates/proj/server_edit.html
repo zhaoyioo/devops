@@ -1,0 +1,65 @@
+ {% include '../common/header.html' %}
+
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+	<div class="content">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="box">
+						<div class="box-head">
+							<h3>编辑服务器</h3>
+						</div>
+						<div class="box-content">
+							<form action="" method="post" class="form-horizontal">
+
+									
+									<div class="control-group">
+										<label for="datepicker" class="control-label">外网IP</label>
+										<div class="controls">
+											<input type="text" name="server_wan_ip" class='required' value="{{server_val['server_wan_ip']}}">
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="datepicker" class="control-label">内网IP</label>
+										<div class="controls">
+											<input type="text" name="server_lan_ip" class='required' value="{{server_val['server_lan_ip']}}" >
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择所在机房</label>
+										<div class="controls">
+											<select name="server_room" id="selsear3" class='cho'>
+                                            {% for room_val in room_list %}
+												<option value="{{room_val['room_id']}}" {% if server_val['server_room']==room_val['room_id'] %} selected=1 {% end %} >{{room_val['room_name']}}</option>
+                                            {% end %} 
+											</select>
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="datepicker" class="control-label">备注</label>
+										<div class="controls">
+											<input type="text" name="server_other" class='required' value="{{server_val['server_other']}}">
+										</div>
+									</div>                                   
+
+                                    <div class="form-actions">
+										
+										<input type="reset" class='btn btn-danger' value="重设">
+                                        <button class="btn btn-primary" type="submit">保存</button>
+									</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>	
+ {% include '../common/footer.html' %}

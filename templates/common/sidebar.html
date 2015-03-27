@@ -1,0 +1,108 @@
+	<div class="navi">
+		<ul class='main-nav'>
+			<li >
+				<a href="/" class='light'>
+					<div class="ico"><i class="icon-home icon-white"></i></div>
+					仪表盘
+					<span class="label label-warning">10</span>
+				</a>
+			</li>
+            
+			<li {% if handler.classname in ['PackHandler','DeployHandler','AreaListHandler','JobViewHandler'] %} class='active open' {% end %} >
+				<a href="#" class='light toggle-collapsed'>
+					<div class="ico"><i class="icon-th-large icon-white"></i></div>
+                            发布版本
+					<img src="/static/img/toggle-subnav-down.png" alt="">
+				</a>
+				<ul {% if handler.classname in ['PackHandler','DeployHandler','AreaListHandler','JobViewHandler'] %} class='collapsed-nav' {% else %} class='collapsed-nav closed'  {% end %}>
+					<li {% if handler.classname == 'PackHandler' %} class='active' {% end %}>
+						<a href="/deploy/PackHandler">
+							生成版本
+						</a>
+					</li>
+					<li {% if handler.classname == 'DeployHandler' %} class='active' {% end %}>
+						<a href="/deploy/DeployHandler">
+							发布版本
+						</a>
+					</li>
+					<li {% if handler.classname == 'AreaListHandler' %} class='active' {% end %}>
+						<a href="/deploy/AreaListHandler">
+							区服列表
+						</a>
+					</li>
+                    <li {% if handler.classname == 'JobViewHandler' %} class='active' {% end %}>
+						<a href="/deploy/JobViewHandler">
+							任务日志
+						</a>
+					</li>
+				</ul>
+			</li>
+            
+			<li {% if handler.classname in ['ViewClecsHandler','ViewProjHandler','ViewAreaHandler','ViewServerHandler'] %} class='active open' {% end %} >
+				<a href="#" class='light toggle-collapsed'>
+					<div class="ico"><i class="icon-tasks icon-white"></i></div>
+					项目配置
+					<img src="/static/img/toggle-subnav-down.png" alt="">
+				</a>
+				<ul {% if handler.classname in ['ViewClecsHandler','ViewProjHandler','ViewAreaHandler','ViewServerHandler'] %} class='collapsed-nav' {% else %} class='collapsed-nav closed'  {% end %} >
+					<li {% if handler.classname == 'ViewClecsHandler' %} class='active' {% end %}>
+						<a href="/proj/ViewClecsHandler">
+							运营商管理
+						</a>
+					</li>
+					<li {% if handler.classname == 'ViewProjHandler' %} class='active' {% end %}>
+						<a href="/proj/ViewProjHandler">
+							项目管理
+						</a>
+					</li>
+					<li {% if handler.classname == 'ViewAreaHandler' %} class='active' {% end %}>
+						<a href="/proj/ViewAreaHandler">
+							区服管理
+						</a>
+					</li>
+					<li {% if handler.classname == 'ViewServerHandler' %} class='active' {% end %}>
+						<a href="/proj/ViewServerHandler">
+							服务器管理
+						</a>
+					</li>
+				</ul>
+			</li>
+            
+            <li {% if handler.classname in ['ServerHandler'] %} class='active open' {% end %} >
+				<a href="#" class='light toggle-collapsed'>
+					<div class="ico"><i class="icon-tasks icon-white"></i></div>
+					信息监控
+					<img src="/static/img/toggle-subnav-down.png" alt="">
+				</a>
+				<ul {% if handler.classname in ['ServerHandler'] %} class='collapsed-nav' {% else %} class='collapsed-nav closed'  {% end %} >
+					<li {% if handler.classname == 'ServerHandler' %} class='active' {% end %}>
+						<a href="/monitor/ServerHandler">
+							服务器列表
+						</a>
+					</li>
+
+
+				</ul>
+			</li>
+            
+            <li {% if handler.classname in ['UserViewHandler'] %} class='active open' {% end %} >
+				<a href="#" class='light toggle-collapsed'>
+					<div class="ico"><i class="icon-tasks icon-white"></i></div>
+					系统管理
+					<img src="/static/img/toggle-subnav-down.png" alt="">
+				</a>
+				<ul {% if handler.classname in ['UserViewHandler'] %} class='collapsed-nav' {% else %} class='collapsed-nav closed'  {% end %} >
+					<li {% if handler.classname == 'UserViewHandler' %} class='active' {% end %}>
+						<a href="/manager/UserViewHandler">
+							用户列表
+						</a>
+					</li>
+
+
+				</ul>
+			</li>
+
+
+
+		</ul>
+	</div>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>后台登录</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+
+<link rel="stylesheet" href="{{ static_url('css/bootstrap.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/jquery.fancybox.css') }}">
+<link rel="stylesheet" href="{{ static_url('css/login.css') }}">
+
+</head>
+<body class='login_body'>
+	<div class="wrap">
+		<h2>运维平台登录</h2>
+		<h4>Welcome to the login page</h4>
+		<form action="/login"  autocomplete="off" method="post" class="validate">
+		
+			{% raw msg %}
+		
+		<div class="login">
+			<div class="email">
+				<label for="user">用户名</label><div class="email-input"><div class="control-group"><div class="input-prepend"><span class="add-on"><i class="icon-envelope"></i></span><input type="text" id="user" name="username" class="{required:true}"></div></div></div>
+			</div>
+			<div class="pw">
+				<label for="pw">密码</label><div class="pw-input"><div class="control-group"><div class="input-prepend"><span class="add-on"><i class="icon-lock"></i></span><input type="password" id="pw" name="password" class='{required:true}'></div></div></div>
+			</div>
+			<div class="remember">
+				<label class="checkbox">
+					<input type="checkbox" value="1" name="remember"> Remember me on this computer
+				</label>
+			</div>
+		</div>
+		<div class="submit">
+
+			<button class="btn btn-red5">登录</button>
+		</div>
+
+		</form>
+
+	</div>
+<script src="{{ static_url('js/jquery.js') }}"></script>
+<script src="{{ static_url('js/jquery.validate.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.metadata.js') }}"></script>
+<script src="{{ static_url('js/error.js') }}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+ {% include '../common/header.html' %}
+<script src="{{ static_url('js/layer.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/jquery.easyui.min.js') }}"></script>
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+
+    
+	<div class="content">
+			<div class="row-fluid">
+				<div class="span12">
+                <div id="jobsuccess" >
+					
+				</div>
+					<div class="box">
+						<div class="box-head">
+							<h3>确认创建任务</h3>
+						</div>
+						
+							<form action="" method="post" class="form-horizontal">
+
+                                        <input type="hidden" name='jobid' id='jobid' value="{{job_id}}" >
+									
+                                        <div class="details pull-left userprofile" style="margin-left:30px;">
+                                            <table class="table table-detail">
+                                                <tr>
+                                                    <th style="text-align:left;">任务ID: </th>
+                                                    <td><font color="red" size=4><b>{{job_id}}</b></font></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:left;">项目: </th>
+                                                    <td>{{proj}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:left;">运营商ID: </th>
+                                                    <td>{{clecs}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:left;">类型:</th>
+                                                    <td><span class="label label-warning">{{type}}</span></td>
+                                                </tr>
+                                                 <tr>
+                                                    <th style="text-align:left;">版本号: </th>
+                                                    <td>{{version}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:left;">操作:</th>
+                                                    <td>{{action}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:left;">指令类型:</th>
+                                                    <td>{% if job_type == 1 %}<span class="label label-important">游戏</span>{% end %}</td>
+                                                </tr>
+                                                
+                                            </table>
+                                       
+                                    </div>
+                                    
+                            <div class="box-content">
+                            <div class="invoice">        
+                                    
+                            <table class="table table-striped table-invoice table-bordered" id="jtable">
+								<thead>
+									<tr>
+                                        <th>ID</th>
+										<th>下发服务器</th>
+										<th>下发区服ID</th>
+										<th>下发指令</th>
+                                        <th>执行状态</th>
+									</tr>
+								</thead>
+								<tbody>
+                                {% for check_list_val in check_list %}
+									<tr>
+                                        <td class='name' >{{check_list_val['jid']}}</td>
+										<td class='name'>{{check_list_val['ip']}}</td>
+										<td class='price'>{{check_list_val['area']}}</td>
+                                        <td class='price'>{{check_list_val['command']}}</td>
+                                        <td class='price'><img src="/static/img/loading_s.gif" > 请稍等...</td>
+									</tr>
+                                {% end %} 
+
+								</tbody>
+							</table>
+                            </div>
+                            </div>
+
+                                    <div class="form-actions">
+										
+										<input type="reset" class='btn btn-danger' onclick="javascript:history.back(-1);" value="返回">
+                                        <button class="btn btn-primary" id="rizhi" onclick="createjob()" type="button">执行</button>
+									</div>
+							</form>
+                            
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>	
+        
+        
+	</div>
+    
+</div>	
+
+
+<script type="text/javascript">
+
+	
+    window.onload=function(){
+    //每隔5秒检查一下数据
+    window.setInterval(getstatus,2000);
+    };
+
+
+		function createjob(){
+
+			//alert(serverip);
+            var button = document.getElementById("rizhi");
+            var jobid = $('#jobid').val();
+            
+			$("#jobsuccess").html('<div class="alert alert-info" id="jobsuccess" ><strong>指令向各节点发送成功：</strong> 请关注本页面执行状态! 如时间较长 可以转到日志页面稍后在查看</div>');
+			//$("#tt").hide();
+			  $.ajax({
+                 type: "post",
+                 url: "/deploy/MakeJobHandler",
+                 data: "jobid=" + jobid ,//提交表单，相当于CheckCorpID.ashx?ID=XXX
+                 success: function(msg){
+                 	//alert( jobid );    //操作成功后的操作！msg是后台传过来的值
+                 }
+              }); 
+              
+            button.disabled=true;
+		}
+        
+        function getstatus(){
+        
+
+            
+            $("#jtable tr").each(function () {
+                
+                var jid = ''
+                var jstatus = ''
+                
+                //同样的这里的this也是一个HTMLTableRowElement object，需要$(this)才转换为jquery object
+                jid = $(this).find("td").eq(0).text();
+                jstatus = $(this).find("td").eq(4);
+                
+                if (jid != ''){
+                    
+                    var code_info = ['准备就绪','执行成功','执行失败','已下发','执行中','通讯失败'];
+                    var code_str = '';
+                    
+                    $.ajax({
+                        type: "post",
+                        cache:false,
+                        timeout:2000,
+                        url: "/deploy/GetReadyHandler",
+                        data: "jid=" + jid ,//提交表单，相当于CheckCorpID.ashx?ID=XXX
+                        success: function(msg){
+                            
+                            switch(msg){
+                                
+                                case '0': case '1':  
+                                    code_str = '<font color=green ><b> ' + code_info[msg] + '</b></font>';
+                                    break;
+                                case '3': case '4':
+                                    code_str = '<img src="/static/img/loading_s.gif" ><font color=green ><b> ' + code_info[msg] + '</b></font>';
+                                    break;
+                                case '2': case '5': 
+                                    code_str = '<font color=red ><b> ' + code_info[msg] + '</b></font>';
+                                    break;
+                                default: 
+                                    code_str = '<font color=red ><b> ' + code_info[msg] + '</b></font>';
+                                break;
+                            }
+                            
+                            jstatus.html(code_str);
+                            //alert(msg);    //操作成功后的操作！msg是后台传过来的值
+                        }
+                    }); 
+                }    
+            });
+		}
+        
+</script>
+
+ {% include '../common/footer.html' %}

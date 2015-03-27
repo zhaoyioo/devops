@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//handlers/deploy.py=utf-8
+encoding//handlers/index.py=utf-8
+encoding//handlers/manager.py=utf-8
+encoding//handlers/monitor.py=utf-8
+encoding//handlers/proj.py=utf-8
+encoding//model/base.py=utf-8
+encoding/1.py=utf-8
+encoding/application.py=utf-8
+encoding/page.py=utf-8
+encoding/server.py=utf-8
+encoding/urls.py=utf-8

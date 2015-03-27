@@ -1,0 +1,52 @@
+ {% include '../common/header.html' %}
+
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+	<div class="content">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="box">
+						<div class="box-head">
+							<h3>添加项目</h3>
+						</div>
+						<div class="box-content">
+							<form action="" method="post" class="form-horizontal">
+
+									
+									<div class="control-group">
+										<label for="datepicker" class="control-label">项目名称</label>
+										<div class="controls">
+											<input type="text" name="proj_name" class='required' >
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="datepicker" class="control-label">项目代号</label>
+										<div class="controls">
+											<input type="text" name="proj_alias" >
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="datepicker" class="control-label">项目SVN</label>
+										<div class="controls">
+											<input type="text" name="proj_svn" >
+										</div>
+									</div>
+                                    <div class="form-actions">
+										<button class="btn btn-primary" type="submit">保存</button>
+										<input type="reset" class='btn btn-danger' value="reset">
+									</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>	
+ {% include '../common/footer.html' %}

@@ -1,0 +1,165 @@
+ {% include '../common/header.html' %}
+<script src="{{ static_url('js/layer.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/jquery.easyui.min.js') }}"></script>
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+    
+	<div class="content">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="box">
+						<div class="box-head">
+							<h3>发布版本</h3>
+						</div>
+						<div class="box-content">
+							<form action="" method="post" class="form-horizontal">
+
+									
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择项目</label>
+										<div class="controls">
+											<select name="proj" id="proj" class='cho'>
+                                            {% for proj_val in proj_list %}
+												<option value="{{proj_val['proj_alias']}}">{{proj_val['proj_name']}}</option>
+                                            {% end %} 
+											</select>
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择运营商</label>
+										<div class="controls">
+											<select name="clecs" id="clecs" class='cho'>
+                                            {% for clecs_val in clecs_list %}
+												<option value="{{clecs_val['clecs_id']}}">{{clecs_val['clecs_name']}}</option>
+                                            {% end %} 
+											</select>
+										</div>
+									</div>
+                                                
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择类型</label>
+										<div class="controls">
+											<select name="type" id="type" class='cho'>
+                                                <option value=''>选择类型</option>
+                                                <option value="server">服务端</option>
+                                                <option value="db">数据库</option>
+											</select>
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="radio2" class="control-label">操作方式</label>
+										<div class="controls">
+                                            <input type="radio" class='uniform' name="action" value='update' checked >更新 
+                                            <input type="radio" class='uniform' name="action" value='install' >安装 
+										</div>
+									</div>
+                                
+    
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择更新包</label>
+										<div class="controls" >
+											<select name="package" id="pack" size=10 style="width:450px">
+                                                <option value=''>未选择更新包</option>
+											</select>
+										</div>
+									</div>   
+                                    
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择区服</label>
+										<div class="controls" >
+											<select name="area" multiple id="area" size=10 style="width:450px">
+                                                <option value=''>未选择区服</option>
+											</select>
+										</div>
+									</div>  
+                               
+
+                                    <div class="form-actions">
+										
+										<input type="reset" class='btn btn-danger' value="重设">
+                                        <button class="btn btn-primary" type="submit">提交</button>
+									</div>
+							</form>
+                            
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>	
+        
+        
+	</div>
+    
+</div>	
+
+
+<script type="text/javascript">
+
+	
+$(function(){
+
+$("#type").change(function(){
+	getdataVal();
+
+});
+$("#proj").change(function(){
+	getdataVal();
+
+});
+$("#clecs").change(function(){
+	getdataVal();
+
+});
+
+});
+
+function getdataVal(){
+
+		var proj_val = $("#proj").val();
+        var clecs_val = $("#clecs").val();
+		var type_val = $("#type").val();
+		
+		$.get("/deploy/GetPackageHandler",{ type:type_val,clecs:clecs_val,proj:proj_val }, function(sysdata){
+            
+				var sys = $("#pack");
+				sys.empty();
+				
+				$.each(sysdata, function(appid, sysarray){ 	
+
+                    packagestr = '<option value=' + sysarray['ver'] + ' >' +sysarray['file']+ '  -  [' +sysarray['date']+  ']</option>';
+                    sys.append(packagestr);
+				}); 
+
+				//alert(str); 
+				//$("#select2").html(str);
+	
+		},"json");	
+
+		$.get("/deploy/GetAreaHandler",{ clecs:clecs_val,proj:proj_val }, function(areadata){
+            
+				var area = $("#area");
+				area.empty();
+				
+				$.each(areadata, function(appid, areaarray){ 	
+
+                    areastr = '<option value=' + areaarray['id'] + ' >' +areaarray['area_id']+ ' - ' +areaarray['area_name']+ ' - Server:[' +areaarray['serverip']+  '] - DB:[' +areaarray['dbip']+ ']</option>';
+                    area.append(areastr);
+				}); 
+
+				//alert(str); 
+				//$("#select2").html(str);
+	
+		},"json");	        
+			
+}
+</script>
+
+ {% include '../common/footer.html' %}

@@ -1,0 +1,93 @@
+ {% include '../common/header.html' %}
+
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+	<div class="content">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="box">
+						<div class="box-head">
+							<h3>编辑区服</h3>
+						</div>
+						<div class="box-content">
+							<form action="" method="post" class="form-horizontal">
+
+									<input type="hidden" name="id" value="{{area_val['id']}}" >
+                                    
+									<div class="control-group">
+										<label for="datepicker" class="control-label">区服ID</label>
+										<div class="controls">
+											<input type="text" name="area_id" class='required' value="{{area_val['area_id']}}">
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="datepicker" class="control-label">区服名称</label>
+										<div class="controls">
+											<input type="text" name="area_name" class='required' value="{{area_val['area_name']}}" >
+										</div>
+									</div>
+                                    
+ 									<div class="control-group">
+										<label for="selsear" class="control-label">选择服务器</label>
+										<div class="controls">
+											<select name="area_host" id="selsear" class='cho'>
+                                            {% for server_val in server_list %}
+												<option value="{{server_val['server_id']}}" {% if area_val['area_host']==server_val['server_id'] %} selected=1 {% end %} >{{server_val['server_wan_ip']}}</option>
+                                            {% end %}    
+											</select>
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="selsear1" class="control-label">选择数据库服务器</label>
+										<div class="controls">
+											<select name="area_db" id="selsear1" class='cho'>
+                                            {% for server_val in server_list %}
+												<option value="{{server_val['server_id']}}"  {% if area_val['area_db']==server_val['server_id'] %} selected=1 {% end %} >{{server_val['server_wan_ip']}}</option>
+                                            {% end %} 
+											</select>
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="selsear2" class="control-label">选择运营商</label>
+										<div class="controls">
+											<select name="area_clecs" id="selsear2" class='cho'>
+                                            {% for clecs_val in clecs_list %}
+												<option value="{{clecs_val['clecs_id']}}" {% if area_val['area_clecs']==clecs_val['clecs_id'] %} selected=1 {% end %} >{{clecs_val['clecs_name']}}</option>
+                                            {% end %} 
+											</select>
+										</div>
+									</div>
+                                    
+                                    <div class="control-group">
+										<label for="selsear3" class="control-label">选择项目</label>
+										<div class="controls">
+											<select name="area_proj" id="selsear3" class='cho'>
+                                            {% for proj_val in proj_list %}
+												<option value="{{proj_val['proj_id']}}" {% if area_val['area_proj']==proj_val['proj_id'] %} selected=1 {% end %} >{{proj_val['proj_name']}}</option>
+                                            {% end %} 
+											</select>
+										</div>
+									</div>
+                                    
+                                    
+
+                                    <div class="form-actions">
+										<input type="reset" class='btn btn-danger' value="重设">
+                                        <button class="btn btn-primary" type="submit">保存</button>
+									</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>	
+ {% include '../common/footer.html' %}

@@ -1,0 +1,119 @@
+ {% include '../common/header.html' %}
+
+
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+	<div class="content">
+			<div class="row-fluid">
+            
+				<div class="span12">
+                
+					<div class="box">
+                    
+						<div class="box-head">
+							<h3>服务器列表</h3>
+                            
+						</div>
+						<div class="box-content box-nomargin">
+							<table class='table table-striped table-bordered' id='jtable'>
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>外网IP</th>
+										<th>所属机房</th>
+										<th>备注信息</th>
+                                        <th>CPU</th>
+                                        <th>Load</th>
+                                        <th>内存</th>
+                                        <th>Agent状态</th>
+
+									</tr>
+								</thead>
+								<tbody>
+                                {% for server_val in server_list %}
+									<tr>
+										<td>{{server_val['server_id']}}</td>
+										<td>{{server_val['server_wan_ip']}}</td>
+                                        <td>{{server_val['room_name']}}</td>
+										<td>{{server_val['server_other']}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><img src="/static/img/loading_s.gif" ></td>
+
+									</tr>
+                                {% end %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>	
+
+<script type="text/javascript">
+
+	
+    window.onload=function(){
+
+    getstatus();
+    };
+
+
+        function getstatus(){
+        
+
+            $("#jtable tr").each(function () {
+                
+                var jid = ''
+                var jstatus = ''
+                
+                //同样的这里的this也是一个HTMLTableRowElement object，需要$(this)才转换为jquery object
+                jid = $(this).find("td").eq(0).text();
+                jstatus = $(this).find("td").eq(7);
+                
+                //alert(jid);
+                
+                if (jid != ''){
+                    
+                    var code_info = ['连接失败','运行中'];
+                    var code_str = '';
+                    
+                    $.ajax({
+                        type: "post",
+                        cache:false,
+                        timeout:8000,
+                        url: "/monitor/GetServerStatusHandler",
+                        data: "server_id=" + jid ,//提交表单，相当于CheckCorpID.ashx?ID=XXX
+                        success: function(msg){
+                            
+                            switch(msg){
+                                
+                                case '0':  
+                                    code_str = '<font color=red ><b> ' + code_info[msg] + '</b></font>';
+                                    break;
+                                case '1':
+                                    code_str = '<font color=green ><b> ' + code_info[msg] + '</b></font>';
+                                    break;
+                                default: 
+                                    code_str = '<font color=red ><b> ' + code_info[msg] + '</b></font>';
+                                break;
+                            }
+                            
+                            jstatus.html(code_str);
+                            //alert(msg);    //操作成功后的操作！msg是后台传过来的值
+                        }
+                    }); 
+                }    
+            });
+		}
+        
+</script>
+
+ {% include '../common/footer.html' %}

@@ -1,0 +1,69 @@
+ {% include '../common/header.html' %}
+
+
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+	<div class="content">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="box">
+						<div class="box-head tabs">
+							<h3>运营商列表</h3>
+							<ul class='nav nav-tabs'>
+								<li class='active'>
+									<button class="btn btn-success" onclick="location.href='/proj/AddClecsHandler'" style="float:right;margin:0 20px 0 0;height:30px;width:100px;">添加运营商</button>
+								</li>
+
+							</ul>
+						</div>
+                        
+						<div class="box-content box-nomargin">
+                        
+							<div class="tab-content">
+									<div class="tab-pane active" id="basic">
+										<table class='table table-striped dataTable table-bordered'>
+											<thead>
+												<tr>
+													<th>运营商ID</th>
+													<th>运营商名称</th>
+													<th>添加时间</th>
+													<th>项目数</th>
+                                                    <th>操作</th>
+													
+												</tr>
+											</thead>
+											<tbody>
+                                            {% for clecs_val in clecs %}
+												<tr >
+													<td>{{clecs_val['clecs_id']}}</td>
+													<td>{{clecs_val['clecs_name']}}</td>
+													<td>{{clecs_val['add_time']}}</td>
+                                                    <td></td>
+													<td><a href="/proj/EditClecsHandler?clecs_id={{clecs_val['clecs_id']}}" class="btn btn-primary btn-mini">修改</a>
+                                                    <a href="javascript:if(confirm('确实要删除吗?'))location='/proj/DeleteClecsHandler?clecs_id={{clecs_val['clecs_id']}}'" class="btn btn-danger btn-mini">删除</a>
+                                                    </td>
+													
+												</tr>
+                                            {% end %}
+
+											</tbody>
+										</table>
+									</div>
+
+
+											</tbody>
+										</table>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>	
+ {% include '../common/footer.html' %}

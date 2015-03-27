@@ -1,0 +1,156 @@
+ {% include '../common/header.html' %}
+
+
+
+<div class="main">
+	<div class="container-fluid">
+
+    {% include '../common/sidebar.html' %}
+    
+	<div class="content">
+			<div class="row-fluid">
+            
+				<div class="span12">
+                
+					<div class="box">
+                    
+						<div class="box-head">
+							<h3>区服列表</h3>
+                            
+						</div>
+						<div class="box-content box-nomargin">
+							<table class='table table-striped table-bordered' id='table'>
+								<thead>
+									<tr>
+										<th class='table-checkbox'><input type="checkbox" class='sel_all'></th>
+										<th>ID</th>
+                                        <th>所属项目</th>
+										<th>运营商</th>
+										<th>区服ID</th>
+										<th>区服名称</th>
+										<th>服务器</th>
+                                        <th>是否安装</th>
+                                        <th>版本号</th>
+                                        <th>状态</th>
+                                        <th>普通操作</th>
+                                        <th>危险操作</th>
+									</tr>
+								</thead>
+								<tbody>
+                                {% for area_val in area_list %}
+									<tr>
+										<td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
+										<td>{{area_val['id']}}</td>
+                                        <td>{{area_val['proj_name']}}</td>
+										<td>{{area_val['clecs_name']}}</td>
+										<td>{{area_val['area_id']}}</td>
+                                        <td>{{area_val['area_name']}}</td>
+                                        <td>{{area_val['serverip']}}</td>
+										<td><font color=red>连接中</font></td>
+                                        <td><img src="/static/img/loading_s.gif" ></td>
+                                        <td><img src="/static/img/loading_s.gif" ></td>
+                                        <td>
+                                                    <a href="" onclick="javascript:return submit_action({{area_val['id']}},'stop','停服')" class="btn btn-inverse btn-mini">停服</a>
+                                                    |
+                                                    <a href="" onclick="javascript:return submit_action({{area_val['id']}},'start','开服')" class="btn btn-primary btn-mini">开服</a>
+                                                    
+                                        </td>
+                                        <td>
+                                                <a href="" onclick="javascript:return submit_action({{area_val['id']}},'cache','清缓存')" class="btn btn-danger btn-mini">清缓存</a>
+                                        </td>
+									</tr>
+                                {% end %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+                    {% module Paginator(page, pagenum, page_count) %}
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>	
+
+<script type="text/javascript">
+
+	
+
+    window.onload=function(){
+    //每隔5秒检查一下数据
+    window.setInterval(getstatus,2000);
+    };
+
+
+        function getstatus(){
+
+        
+            var code_state = ['<span class="label label-important">未启动</span>','<span class="label label-success">运行中</span>'];
+            var code_install = ['未安装','<font color=green>已安装</font>'];
+            $("#table tr").each(function () {
+                
+
+                
+                //同样的这里的this也是一个HTMLTableRowElement object，需要$(this)才转换为jquery object
+                var id = $(this).find("td").eq(1).text();
+                var install = $(this).find("td").eq(7);
+                var state = $(this).find("td").eq(9);
+                var area_ver = $(this).find("td").eq(8);
+                
+                //alert(id);
+                
+                if (id != ''){
+           
+                    
+                    $.ajax({
+                        type: "post",
+                        cache:false,
+                        timeout:5000,
+                        url: "/monitor/GetAreaStatusHandler",
+                        data: "id=" + id ,//提交表单，相当于CheckCorpID.ashx?ID=XXX
+                        dataType: "json",
+                        success: function(msg){
+
+                            //alert(msg.area_state);
+                                
+                            state.html(code_state[msg.area_state]);
+                            install.html(code_install[msg.area_install]);
+                            area_ver.html(msg.area_version);
+                        }
+                    }); 
+                    
+                }    
+            });
+		}
+        
+        function submit_action(id,action,lang){
+        
+            var id = id;
+            var action = action;
+            var lang = lang;
+        
+            var msg = "对于" + lang + "这件事,您真的想好了吗？\n\n请确认！"; 
+            if (confirm(msg)==true){ 
+
+
+                    $.ajax({
+                        type: "post",
+                        cache:false,
+                        timeout:5000,
+                        url: "/deploy/ServerActionHandler",
+                        data: "id=" + id + "&action=" +action ,//提交表单，相当于CheckCorpID.ashx?ID=XXX
+                        dataType: "json",
+                        success: function(){
+
+                            alert("操作成功,请观察本页面状态,无需刷新！");
+                                
+                        }
+                    });                 
+                
+            
+            }else{ 
+                 
+            } 
+        }
+        
+</script>
+ {% include '../common/footer.html' %}
