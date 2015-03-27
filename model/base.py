@@ -93,7 +93,7 @@ class SocketHandler(BaseHandler):
         self.key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx'
         
         HOST = ipaddr    # The remote host  
-        PORT = 8742           # The port as used by the server  
+        PORT = 8888           # The port as used by the server  
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)     
         self.stream = iostream.IOStream(s)
         self.stream.set_close_callback(self.auth_close)
